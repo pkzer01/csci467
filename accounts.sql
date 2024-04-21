@@ -1,15 +1,6 @@
-DROP TABLE IF EXISTS CustomerAccounts;
 DROP TABLE IF EXISTS Quotes;
 DROP TABLE IF EXISTS SalesAssociates;
 DROP TABLE IF EXISTS OrderInfo;
-
-CREATE TABLE CustomerAccounts(
-    customerID INT NOT NULL AUTO_INCREMENT,
-    customerEmail VARCHAR(100),
-    customerPassword VARCHAR(15),
-    PRIMARY KEY(customerID)
--- no addresses yet to save headache
-);
 
 
 CREATE TABLE SalesAssociates (
