@@ -9,7 +9,8 @@ CREATE TABLE SalesAssociates (
     AssociateName VARCHAR(100),
     AssociatePhone VARCHAR(12),
     AssociateEmail VARCHAR(100),
-    PRIMARY KEY(SalesAssociateID)
+    AssociatePass VARCHAR(10),
+    PRIMARY KEY(SalesAssociateID, AssociatePass)
 );
 
 CREATE TABLE Quotes (
