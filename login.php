@@ -1,29 +1,68 @@
 <html>
 <!-- THIS IS WHERE LOGIN BOXES WILL BE -->
-<head>
-<title>Quote Site Login</title>
-</head>
+<head><title>Quote Site Login</title></head>
+
+<!-- begin styling the login page -->
+<style>
+   body{
+	background-color: navy;
+	margin: 0;
+	padding: 0;
+	font-famil: Arial, sans-serif;
+	line-height: 2;
+   }
+
+   header{
+	background-color: floralwhite;
+	color: black;
+	text-align: center;
+	padding: 10px;
+   }
+
+   .container{
+	margin-top: 50px;
+
+   }
+
+  .loginsign{
+	text-align: center;
+	color: floralwhite;
+  }
+</style>
 
 <body>
-  <h1>Welcome to Quotes Daily</h1>
+
+  <header><h1>Welcome to Quotes Daily</h1></header>
+
+  <div class="loginsign">
+  <h1>Login Associate!!</h1>
+  </div>
+
+<div class="container">
+  <div class="row justify-content-center">
+   <div class="col-md-6-col-md-offset-3" align="center">
+   <form method="POST" action="login.php">
+
+    <input type='text' name='userID' placeholder='userID'>
+
+    <br/>
+    <br/>
+
+    <input type='password' name='password' placeholder='password'/>
+
+    <br/>
+    <br/>
+
+    <!-- This button hopefully is for the id + password -->
+    <button type='submit' name='submit' value='submit'>LOGIN</button>
 
 
-<form method="POST" action="login.php">
+   </form>
 
-  <input type='text' name='userID' placeholder='userID'>
+  </div>
 
-  <br/>
-  <br/>
+</div>
 
-  <input type='text' name='password' placeholder='password'/>
-
-  <br/>
-  <br/>
-
-  <!-- This button hopefully is for the id + password -->
-  <button type='submit' name='submit' value='submit'>LOGIN</button>
-
-</form>
 
 <br/>
 <br/>
