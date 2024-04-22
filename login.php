@@ -4,46 +4,100 @@
 <title>Quote Site Login</title>
 </head>
 
-
 <body>
   <h1>Welcome to Quotes Daily</h1>
-</body>
 
-<form>
 
-  <label for='UserID'>User ID: </label>
-  <input type='text' id='UserID' name='UserID'>
+<form method="POST" action="login.php">
+
+  <input type='text' name='userID' placeholder='userID'>
 
   <br/>
   <br/>
 
-  <label for='Password'>Password: </label>
-  <input type='text' id='password' name='Password'>
+  <input type='text' name='password' placeholder='password'/>
 
   <br/>
   <br/>
 
   <!-- This button hopefully is for the id + password -->
-  <button type='submit'>SUBMIT</button>
+  <button type='submit' name='submit' value='submit'>LOGIN</button>
 
 </form>
 
 <br/>
 <br/>
-<a href=''> CLICK HERE TO REGISTER AS NEW CUSTOMER </a>
 
-<br/>
+</body>
 
 <?php
-echo 'this page should check 2 things: 1) username 2)password';
 
-echo '<br/>';
+//start the sql session /////////////////////////////////////////////////////
+  $hostname = 'courses';
+  $dbname = 'z1918687';
+  $username = 'z1918687';
+  $passwrd = '2002Dec11';
 
-echo 'check against a table in our DB';
+  $dsn = "mysql:host=$hostname;dbname=$dbname";
 
-echo '<br/>';
+  $options = [
+    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    PDO::ATTR_EMULATE_PREPARES   => false,
+  ];
 
-echo 'then i want to include something that lets a new customer sign up';
+  try {
+
+        $pdo = new PDO($dsn, $username, $passwrd, $options);
+
+  } catch (PDOException $e){
+
+   die("<p>Connection to database failed: {$e->getMessage()}</p>\n");
+
+  }
+/////////////////////////////////////////////////////////////////////////////
+
+
+//	Trying to check the user and password		//
+if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])){
+
+  //store user and password
+  $USER = $_POST["userID"];
+
+  //query to get everything from a row where the user is found
+  $query = "SELECT * FROM SalesAssociates WHERE salesAssociateID=:userID";
+
+  //execute the query
+  $statement = $pdo->prepare($query);
+  $statement->bindParam(':userID', $USER);
+  $statement->execute();
+
+
+  //login success --> redirect page, else failure
+
+  if($statement->rowCount() > 0){
+
+	//start session, this allows to remember who logged in
+	session_start();
+
+	//store the session variable
+	$_SESSION['userID'] = $USER;
+
+
+	//redirect using javascript
+	echo"<script>window.location.href = 'salesAssociate.php';</script>";
+	exit();
+
+
+  }else{
+
+	echo "invalid userID or password";
+
+  }
+
+}
+
+
 ?>
 
 </html>
