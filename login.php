@@ -102,13 +102,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])){
 
   //store user and password
   $USER = $_POST["userID"];
+  $PASS = $_POST["password"];
 
   //query to get everything from a row where the user is found
-  $query = "SELECT * FROM SalesAssociates WHERE salesAssociateID=:userID";
+  $query = "SELECT * FROM SalesAssociates WHERE salesAssociateID=:userID AND AssociatePass=:password ";
 
   //execute the query
   $statement = $pdo->prepare($query);
   $statement->bindParam(':userID', $USER);
+  $statement->bindParam(':password', $PASS);
   $statement->execute();
 
 
@@ -121,8 +123,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])){
 
 	//store the session variable
 	$_SESSION['userID'] = $USER;
+	$_SESSION['password'] = $PASS;
 
-
+	//possibly use different if statements for diff pages
 	//redirect using javascript
 	echo"<script>window.location.href = 'salesAssociate.php';</script>";
 	exit();
