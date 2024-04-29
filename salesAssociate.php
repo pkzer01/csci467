@@ -17,8 +17,9 @@
 
 	//get the session variable from login
 	$userID = $_SESSION['userID'];
+	$userPass = $_SESSION['password'];
 
-	echo "<p> userID: $userID</p>";
+	echo "<p> userID: $userID  userpass: $userPass</p>";
 
   }
 
