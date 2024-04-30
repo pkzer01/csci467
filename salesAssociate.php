@@ -78,9 +78,6 @@
 <h2>Create new quote for Customer:</h2>
 <p>here should be a drop menu that is filled with the names of customers from the legacyDB</p>
 
-  <form method='POST' action=salesAssociate.php>
-  <label for='customer'>--SELECT A CUSTOMER--</label>
-  <select name='customer'>
 
 <?php
 ///////////////////////  CONNECT TO THE CUSTOMER DB /////////////////////////
@@ -110,15 +107,36 @@
    }
 /////////////////////////////////////////////////////////////////////////////
    ///still want to make drop down menu of quotes
-   $query = "SELECT name FROM customers"; //selecting name from classDB
+    $query = "SELECT name FROM customers"; //selecting name from classDB
 
     $statement = $pdo->prepare($query);
     $statement->execute();
-    $customers = statement->fetch(PDO::FETCH_ASSOC);
-?>
+    $customers = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-  </select>
-  </form>
+
+    echo "<form method='POST' action=salesAssociate.php>";
+    echo "<label for='customer'>Customers List: </label>";
+    echo "<select name='customer'>";
+
+    echo "<option value=0>--SELECT A CUSTOMER--</option>";
+
+    foreach($customers as $customer){
+    echo "<option value='" . htmlspecialchars($customer['name']) . "'>";
+
+    echo htmlspecialchars($customer['name']);
+
+    echo "</option>";
+    }
+
+    echo "</select>";
+
+    echo"	";
+    //<!--submit button-->
+    echo"<input type='submit' value='NEW QUOTE'>";
+
+    echo "</form>";
+
+?>
 
 <br/>
 <p>show total number of customers</b>
