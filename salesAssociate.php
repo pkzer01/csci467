@@ -137,6 +137,10 @@
 
     echo "</form>";
 
+    echo"when button pressed --> new quote page";
+    echo"<br/>";
+    echo"when going bring the name of the company, to pull info again if need be";
+
     echo "<br/>";
 
     echo "NUMBER OF CUSTOMERS: " . $rowCount;
@@ -179,6 +183,8 @@
 /////////////////////////////////////////////////////////////////////////////
 
    echo"Here I want to make a table of the quote DB based on current user";
+   echo"<br/>";
+   echo"SELECT * FROM quoteTable WHERE associateID=userID";
 
 ?>
 
