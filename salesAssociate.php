@@ -112,6 +112,7 @@
     $statement = $pdo->prepare($query);
     $statement->execute();
     $customers = $statement->fetchAll(PDO::FETCH_ASSOC);
+    $rowCount  = $statement->rowCount();
 
 
     echo "<form method='POST' action=salesAssociate.php>";
@@ -136,10 +137,14 @@
 
     echo "</form>";
 
+    echo "<br/>";
+
+    echo "NUMBER OF CUSTOMERS: " . $rowCount;
+
+// close connection
+    $pdo = null;
 ?>
 
-<br/>
-<p>show total number of customers</b>
 
 <br/>
 <br/>
@@ -147,8 +152,38 @@
 <p>--------------------------------------------------------------</p>
 
 <p> display the current quotes that an associate has</p>
+<?php
+//start the sql session /////////////////////////////////////////////////////
+  $hostname = 'courses';
+  $dbname = 'z1918687';
+  $username = 'z1918687';
+  $passwrd = '2002Dec11';
+
+  $dsn = "mysql:host=$hostname;dbname=$dbname";
+
+  $options = [
+    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    PDO::ATTR_EMULATE_PREPARES   => false,
+  ];
+
+  try {
+
+        $pdo = new PDO($dsn, $username, $passwrd, $options);
+
+  } catch (PDOException $e){
+
+   die("<p>Connection to database failed: {$e->getMessage()}</p>\n");
+
+  }
+/////////////////////////////////////////////////////////////////////////////
+
+   echo"Here I want to make a table of the quote DB based on current user";
+
+?>
+
 <br/>
-<p> should show the customer + how much, and then a button to edit the entire quote </p>
+
 </body>
 
 </html>
