@@ -38,6 +38,7 @@
    echo "<th style='width: 100px'>Order Qty</th>";
    echo "<th style='width: 100px'>Price</th>";
    echo "<th style='width: 100px'>Discount</th>";
+   echo "<th style='width: 150px'>Total Price</th>";
    echo "</tr>";
    foreach ($rows as $row) {
       // find the customer for this order
@@ -56,6 +57,7 @@
       echo "<td>".$row['OrderQuant']."</td>";
       echo "<td>$".$row['Prices']."</td>";
       echo "<td>$".$row['Discounts']."</td>";
+      echo "<td>$".($row['Prices'] * $row['OrderQuant']) - $row['Discounts']."</td>";
       echo "</tr>";
    }
 
