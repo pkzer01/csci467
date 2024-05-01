@@ -1,6 +1,6 @@
+DROP TABLE IF EXISTS OrderInfo;
 DROP TABLE IF EXISTS Quotes;
 DROP TABLE IF EXISTS SalesAssociates;
-DROP TABLE IF EXISTS OrderInfo;
 
 
 CREATE TABLE SalesAssociates (
@@ -34,3 +34,12 @@ CREATE TABLE OrderInfo (
     PRIMARY KEY(PurchaseID)
 );
 
+-- Create Test Data
+INSERT INTO SalesAssociates (CommissionRate, AssociateName, AssociatePhone, AssociateEmail)
+    values (2.25, 'Roger Huxley', '224-444-4444', 'roger@quotes.com');
+
+INSERT INTO Quotes (Prices, Discounts, SecretNotes, QuoteStatus, ItemNum, Quantity, SalesAssociateID, CustomerID)
+    values (300.99, 1.99, 'The discount is not real, just messing with the customer!', 'Approved', '100-1100', 100, 1, 1);
+
+INSERT INTO OrderInfo (QuoteID, CommissionRate, OrderQuant, OrderStatus)
+    values (1, 3.00, 101, 'Pending');

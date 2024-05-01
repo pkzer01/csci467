@@ -1,8 +1,8 @@
 <html>
 
-<p>hello world</p>
-
 <?php
+   include "header.php"; // include page header
+
    $hostname = 'blitz.cs.niu.edu';
    $port = 3306;
    $dbname = 'csci467';
@@ -63,6 +63,6 @@
 
    echo "</table>";
 
-
+   include "footer.php" // include page footer
 ?>
 </html>

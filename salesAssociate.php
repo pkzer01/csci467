@@ -5,9 +5,9 @@
 </head>
 
 <body>
-<br/>
 
 <?php
+  include "header.php"; // include page header
 
   session_start();
 
@@ -185,7 +185,7 @@
    echo"Here I want to make a table of the quote DB based on current user";
    echo"<br/>";
    echo"SELECT * FROM quoteTable WHERE associateID=userID";
-
+  include "footer.php"; // include page footer
 ?>
 
 <br/>
