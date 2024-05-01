@@ -22,4 +22,21 @@
         die("<p>Connection to database failed: {$e->getMessage()}</p>\n");
     }
     /*********************************************************************/
+
+    // LEGACY customer database connection code here
+    $legacyHostname = 'blitz.cs.niu.edu';
+    $legacyPort = 3306;
+    $legacyDbname = 'csci467';
+    $legacyUsername = 'student';
+    $legacyPassword = 'student';
+
+    //connect to Customer DB/////////////////////////////////////////////
+    $legacyDsn = "mysql:host=$legacyHostname;port=$legacyPort;dbname=$legacyDbname";
+
+    try {
+	    $legacyPdo = new PDO($legacyDsn, $legacyUsername, $legacyPassword, $options);
+    } catch (PDOException $e) {
+        die("<p>Connection to database failed: {$e->getMessage()}</p>\n");
+    }
+    /*********************************************************************/
 ?>

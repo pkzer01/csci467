@@ -17,30 +17,7 @@
 	$userID = $_SESSION['userID'];
 	$userPass = $_SESSION['password'];
 
-//////////////////////// Connect to DB to display name //////////////////////
-  $hostname = 'courses';
-  $dbname = 'z1918687';
-  $username = 'z1918687';
-  $passwrd = '2002Dec11';
-
-  $dsn = "mysql:host=$hostname;dbname=$dbname";
-
-  $options = [
-    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    PDO::ATTR_EMULATE_PREPARES   => false,
-  ];
-
-  try {
-
-        $pdo = new PDO($dsn, $username, $passwrd, $options);
-
-  } catch (PDOException $e){
-
-   die("<p>Connection to database failed: {$e->getMessage()}</p>\n");
-
-  }
-////////////////////////////////////////////////////////////////////////////
+  include "connection.php"; // include database connections
 
   $query = "SELECT AssociateName FROM SalesAssociates WHERE SalesAssociateID=:userID AND AssociatePass=:password";
 
@@ -80,36 +57,12 @@
 
 
 <?php
-///////////////////////  CONNECT TO THE CUSTOMER DB /////////////////////////
-   $hostname = 'blitz.cs.niu.edu';
-   $port = 3306;
-   $dbname = 'csci467';
-   $username = 'student';
-   $password = 'student';
-
-   //connect to Customer DB/////////////////////////////////////////////
-   $dsn = "mysql:host=$hostname;port=$port;dbname=$dbname";
-
-   $options = [
-     PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-     PDO::ATTR_EMULATE_PREPARES   => false,
-   ];
-
-   try{
-
-        $pdo = new PDO($dsn, $username, $password, $options);
-
-   }catch (PDOException $e){
-
-   die("<p>Connection to database failed: {$e->getMessage()}</p>\n");
-
-   }
-/////////////////////////////////////////////////////////////////////////////
-   ///still want to make drop down menu of quotes
+    include "connection.php";
+    /////////////////////////////////////////////////////////////////////////////
+    ///still want to make drop down menu of quotes
     $query = "SELECT name FROM customers"; //selecting name from classDB
 
-    $statement = $pdo->prepare($query);
+    $statement = $legacyPdo->prepare($query);
     $statement->execute();
     $customers = $statement->fetchAll(PDO::FETCH_ASSOC);
     $rowCount  = $statement->rowCount();
@@ -157,29 +110,7 @@
 
 <p> display the current quotes that an associate has</p>
 <?php
-//start the sql session /////////////////////////////////////////////////////
-  $hostname = 'courses';
-  $dbname = 'z1918687';
-  $username = 'z1918687';
-  $passwrd = '2002Dec11';
-
-  $dsn = "mysql:host=$hostname;dbname=$dbname";
-
-  $options = [
-    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    PDO::ATTR_EMULATE_PREPARES   => false,
-  ];
-
-  try {
-
-        $pdo = new PDO($dsn, $username, $passwrd, $options);
-
-  } catch (PDOException $e){
-
-   die("<p>Connection to database failed: {$e->getMessage()}</p>\n");
-
-  }
+   include "connection.php"; // include database connections
 /////////////////////////////////////////////////////////////////////////////
 
    echo"Here I want to make a table of the quote DB based on current user";

@@ -1,5 +1,7 @@
 <html>
-
+<head>
+<title>Orders - Quotes Daily</title>
+</head>
 <?php
    include "header.php";
    include "connection.php"; // include database connection from connection.php
