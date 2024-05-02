@@ -8,13 +8,12 @@
 <body style="background-color:ffd1df;">   
 <h1>Associate Information </h1>
 </body>
-//----------------displaying associate data in table
+
  <?php
 $hostname = 'courses';
   $dbname = 'z1918687';
   $username = 'z1918687';
   $password = '2002Dec11';
-
 
   $dsn = "mysql:host=$hostname;dbname=$dbname";
 
@@ -34,25 +33,6 @@ $hostname = 'courses';
   }
   //showing the inventory and everything in it
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
-    $deleteQuery = "DELETE FROM SalesAssociates WHERE userID = :id";
-    $deleteStatement = $pdo->prepare($deleteQuery);
-	 
-    $userID = $_POST['delete_id'];
-    echo "debug statement";
-
-    $deleteStatement->bindParam(':id', $userID);
-
-    try {
-        $deleteStatement->execute();
-        // Redirect back to the page to refresh the table
-        header("Location: {$_SERVER['PHP_SELF']}");
-        exit;
-    } catch (PDOException $e) {
-        die("<p>Deletion failed: {$e->getMessage()}</p>\n");
-    }
-}
-
   $query = 'SELECT * FROM SalesAssociates';
 
   try{
@@ -66,57 +46,72 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
   }
 
   //table for inventory
-
   echo"<table border=1>";
   echo '<tr>';
 					
  foreach (array_keys($rows[0]) as $heading) {
     echo "<td style='padding: 10px;'><strong>$heading<strong></td>";
   }
+	echo "<td style='padding: 10px;'><strong>Action</strong></td>";
+ 	echo '</tr>';
 
   foreach($rows as $row){
       echo "<tr>";
-
-     foreach($row as $col){ echo "<td>$col</td>\n";}
+			
+     foreach($row as $col){
+	 echo "<td>$col</td>\n";}
+echo "<td><button onclick='editRow(this)'>Edit</button><button onclick='confirmDelete(this)'>Delete</button></td>";
+  echo "</tr>";
+} 
+echo "</table>";
  
-	echo "<td><button class='btn btn-edit'>Edit</button></td>";
-//        echo "<td><button class='btn btn-delete'>Delete</button></td>";
-echo "<td>
-            <form method='post' action='{$_SERVER['PHP_SELF']}' style='display: inline;'>
-                <input type='hidden' name='delete_id' value='{$row['userID']}'>
-                <button type='submit'>Delete</button>
-            </form>
-	</td>"; 
-       echo"</tr>";
-  }
- 
-  echo "</tr>"; 
+//button functionalities
+echo "<script>
+    function confirmDelete(button) {
+        if (confirm('Are you sure you want to delete this employee?')) {
+            var row = button.parentNode.parentNode;
+	    row.parentNode.removeChild(row);
+        }
+     }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
-    $deleteQuery = "DELETE FROM SalesAssociates WHERE userID = :id";
-    $deleteStatement = $pdo->prepare($deleteQuery);
-	 
-    $userID = $_POST['delete_id'];
-    echo "debug statement";
-
-    $deleteStatement->bindParam(':id', $userID);
-
-    try {
-        $deleteStatement->execute();
-        // Redirect back to the page to refresh the table
-        header("Location: {$_SERVER['PHP_SELF']}");
-        exit;
-    } catch (PDOException $e) {
-        die("<p>Deletion failed: {$e->getMessage()}</p>\n");
-    }
-}
+     function editRow(button) {
+        var row = button.parentNode.parentNode;
+        var cells = row.querySelectorAll('td');
+        for (var i = 0; i < cells.length - 1; i++) { // Exclude action column
+            var value = cells[i].innerText;
+            cells[i].innerHTML = '<input type=\"text\" value=\"' + value + '\">';
+        }
+        var editButton = row.querySelector('button:nth-of-type(1)');
+        editButton.innerHTML = 'Save';
+        editButton.setAttribute('onclick', 'saveRow(this)');
+     }
 
 
+     function saveRow(button) {
+        var row = button.parentNode.parentNode;
+        var cells = row.querySelectorAll('td');
+        var newData = [];
+        for (var i = 0; i < cells.length - 1; i++) { // Exclude action column
+            newData.push(cells[i].querySelector('input').value);
+            cells[i].innerHTML = cells[i].querySelector('input').value;
+        }
+        var saveButton = row.querySelector('button:nth-of-type(1)');
+        saveButton.innerHTML = 'Edit';
+        saveButton.setAttribute('onclick', 'editRow(this)');
+     }
+</script>";
 ?>
 
 
-//-------------------------------------------------------
-<p>INSERT INTO SalesAssociates(col1,col2,col3...) VALUES (userID,valCol2,'password'...,)</p>
+
+
+
+
+
 </body>
 </html>
+
+
+
+
 
