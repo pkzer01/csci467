@@ -5,6 +5,8 @@
 
 <h1>Welcoming a New Customer</h1>
 
+<p>z1918687</p>
+
 <?php
 
   session_start();
@@ -56,9 +58,28 @@
 
 
     <!-- This button hopefully is for the id + password -->
-    <button type='submit' name='submit' value='submit'>ENTER THAT JAWN</button>
+    <button type='submit' name='submit' value='submit'>ENTER QUOTE</button>
 
 </form>
+
+<?php
+
+   //connect to the my(Ethan) DB
+   include "connection.php";
+
+ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])){
+
+	//store the fields into some values
+	$qID = $_POST['quoteID'];
+	$price = $_POST['price'];
+	$discount = $_POST['status'];
+	$itemNum = $_POST['itemNum'];
+	$cID = $_POST['customerID'];
+
+ }
+
+
+?>
 
 
 <p> second half of this page does behind the scenes stuff and turns this into an order</p>
