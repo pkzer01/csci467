@@ -4,14 +4,12 @@
 
 <html> 
     <head>
-        <title> 
-                Admin Page              
-        </title>
-</head>
+        <title>  Admin Page  </title>
+    </head>
  				
-<body style="background-color:ffd1df;">   
-<h1>Associate Information </h1>
-</body>
+<body style="background-color:ffd1df;">
+<h1 style="color:blue; text-align: center;">Sales Associate Information</h1>
+
 
  <?php
   include "connection.php";
@@ -38,20 +36,21 @@
   }
 	echo "<td style='padding: 10px;'><strong>Action</strong></td>";
  	echo '</tr>';
-
+ 
   foreach($rows as $row){
-      echo "<tr>";
-			
-     foreach($row as $col){
-	 echo "<td>$col</td>\n";}
+      echo "<tr>";			
+      foreach($row as $col){
+	 echo "<td>$col</td>\n";
+	} 
+//adding buttons to tabel
 echo "<td><button onclick='editRow(this)'>Edit</button><button onclick='confirmDelete(this)'>Delete</button></td>";
   echo "</tr>";
 } 
 echo "</table>";
 
+echo "<button onclick='addAssociate()'>Add Associate</button>"; 
+//button functionalities java
 include "footer.php";
- 
-//button functionalities
 echo "<script>
     function confirmDelete(button) {
         if (confirm('Are you sure you want to delete this employee?')) {
@@ -73,7 +72,6 @@ echo "<script>
             })
         }
      }
-
      function editRow(button) {
         var row = button.parentNode.parentNode;
         var cells = row.querySelectorAll('td');
@@ -85,8 +83,6 @@ echo "<script>
         editButton.innerHTML = 'Save';
         editButton.setAttribute('onclick', 'saveRow(this)');
      }
-
-
      function saveRow(button) {
         var row = button.parentNode.parentNode;
         var cells = row.querySelectorAll('td');
@@ -117,15 +113,39 @@ echo "<script>
             alert(data);
           })
         })
-     }
+       }
+function addAssociate() {
+       var newRow = document.createElement('tr');
+       newRow.innerHTML = '<td><input type=\"text\"></td>' + 
+                           '<td><input type=\"text\"></td>' + 
+                           '<td><input type=\"text\"></td>' + 
+                           '<td><input type=\"text\"></td>' + 
+                           '<td><input type=\"text\"></td>' + 
+                           '<td><input type=\"password\"></td>' + 
+                           '<td><button onclick=\"saveNewAssociate(this)\">Save</button></td>'; 
+  document.querySelector('table tbody').appendChild(newRow);
+}
+
+function saveNewAssociate(button) {
+        var row = button.parentNode.parentNode;
+        var inputs = row.querySelectorAll('input[type=\"text\"], input[type=\"password\"]');
+        var newRow = document.createElement('tr');
+        inputs.forEach(function(input) {
+            var cell = document.createElement('td');
+            cell.textContent = input.value;
+            newRow.appendChild(cell);
+        });
+        var actionCell = document.createElement('td');
+        actionCell.innerHTML = '<button onclick=\"editRow(this)\">Edit</button>' +
+                               '<button onclick=\"confirmDelete(this)\">Delete</button>';
+        newRow.appendChild(actionCell);
+        document.querySelector('table tbody').appendChild(newRow);
+        row.parentNode.removeChild(row);
+    }
+
+
 </script>";
 ?>
-
-
-
-
-
-
 
 </body>
 </html>
