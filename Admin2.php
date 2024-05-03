@@ -20,6 +20,7 @@
         $statement = $pdo->prepare($query);
         $statement->execute();
         $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
+	$rowCount = $statement->rowCount();
 
   }catch(PDOException $e){
 
@@ -47,6 +48,8 @@ echo "<td><button onclick='editRow(this)'>Edit</button><button onclick='confirmD
 }
 
 echo "</table>";
+
+echo "<p> Total number of Employees: " . $rowCount . " </p>";
 
 echo "<br/>";
 
