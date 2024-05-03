@@ -2,14 +2,14 @@
   include "header.php";
 ?>
 
-<html> 
+<html>
     <head>
-        <title> 
-                Admin Page              
+        <title>
+                Admin Page
         </title>
 </head>
- 				
-<body style="background-color:ffd1df;">   
+
+<body style="background-color:ffd1df;">
 <h1>Associate Information </h1>
 </body>
 
@@ -32,7 +32,7 @@
   //table for inventory
   echo"<table border=1>";
   echo '<tr>';
-					
+
  foreach (array_keys($rows[0]) as $heading) {
     echo "<td style='padding: 10px;'><strong>$heading<strong></td>";
   }
@@ -41,16 +41,16 @@
 
   foreach($rows as $row){
       echo "<tr>";
-			
+
      foreach($row as $col){
 	 echo "<td>$col</td>\n";}
 echo "<td><button onclick='editRow(this)'>Edit</button><button onclick='confirmDelete(this)'>Delete</button></td>";
   echo "</tr>";
-} 
+}
 echo "</table>";
 
 include "footer.php";
- 
+
 //button functionalities
 echo "<script>
     function confirmDelete(button) {
@@ -58,7 +58,7 @@ echo "<script>
             var row = button.parentNode.parentNode;
             var cells = row.querySelectorAll('td');
             const id = cells[0].innerText;
-            
+
             // delete on server
             fetch('./postSalesAssociate.php', {
               method: 'POST',
@@ -119,10 +119,6 @@ echo "<script>
      }
 </script>";
 ?>
-
-
-
-
 
 
 
