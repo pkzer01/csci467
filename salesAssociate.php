@@ -18,8 +18,6 @@
 	$userID = $_SESSION['userID'];
 	$userPass = $_SESSION['password'];
 
-
-
   $query = "SELECT AssociateName FROM SalesAssociates WHERE SalesAssociateID=:userID AND AssociatePass=:password";
 
   //execute the query
@@ -45,8 +43,6 @@
 
   }
  }
-
-  $pdo = null;
 
 ?>
 
@@ -98,9 +94,6 @@
       }
 
     echo "NUMBER OF CUSTOMERS: " . $rowCount;
-
-// close connection
-    $pdo = null;
 ?>
 
 
@@ -108,43 +101,22 @@
 <br/>
 
 <?php
+   include "connection.php"; // include database connections
+/////////////////////////////////////////////////////////////////////////////
 
- $hostname = 'courses';
-  $dbname = 'z1918687';
-  $username = 'z1918687';
-  $password = '2002Dec11';
-
-
-  $dsn = "mysql:host=$hostname;dbname=$dbname";
-
-  $options = [
-    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    PDO::ATTR_EMULATE_PREPARES   => false,
-  ];
-
-  try{
-
-        $pdo = new PDO($dsn, $username, $password, $options);
-
-  }catch (PDOException $e){
-   die("<p>Connection to database failed: {$e->getMessage()}</p>\n");
-
-  }
-
-   $query = 'SELECT QuoteID,QuoteStatus,CustomerID FROM Quotes WHERE SalesAssociateID =:userID';
+   $query = 'SELECT * FROM Quotes WHERE SalesAssociateID =:userID';
 
   //run the query to get the quotes of the current user
    try{
 
-	$statement = $pdo->prepare($query);
-	$statement->bindParam(':userID', $userID);
-	$statement->execute();
-	//fetch all the returns
-	$rows = $statement->fetchALL(PDO::FETCH_ASSOC);
+	    $statement = $pdo->prepare($query);
+	    $statement->bindParam(':userID', $userID);
+	    $statement->execute();
+	    //fetch all the returns
+	    $rows = $statement->fetchALL(PDO::FETCH_ASSOC);
    }catch(PDOException $e){
 
-        die("<p>Query failed: {$e->getMessage()}</p>\n");
+      die("<p>Query failed: {$e->getMessage()}</p>\n");
 
   }
 
@@ -167,7 +139,7 @@
   }
 
  echo "<tr>";
- echo "</table>"
+ echo "</table>";
 ?>
 
 <br/>

@@ -3,9 +3,9 @@
 
     // database connection code here
     $hostname = 'courses';
-    $username = 'z1918687';
-    $password = '2002Dec11';
-    $dbname   = 'z1918687';
+    $username = 'z1956079';
+    $password = '2000Mar21';
+    $dbname   = 'z1956079';
 
     //connect to MARIA DB/////////////////////////////////////////////
     $dsn = "mysql:host=$hostname;dbname=$dbname";

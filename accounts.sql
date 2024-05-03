@@ -9,6 +9,7 @@ CREATE TABLE SalesAssociates (
     AssociateName VARCHAR(100),
     AssociatePhone VARCHAR(12),
     AssociateEmail VARCHAR(100),
+    AssociatePass VARCHAR(100),
     PRIMARY KEY(SalesAssociateID)
 );
 
@@ -35,10 +36,10 @@ CREATE TABLE OrderInfo (
 );
 
 -- Create Test Data
-INSERT INTO SalesAssociates (CommissionRate, AssociateName, AssociatePhone, AssociateEmail)
-    values (2.25, 'Roger Huxley', '224-444-4444', 'roger@quotes.com');
-    INSERT INTO SalesAssociates (CommissionRate, AssociateName, AssociatePhone, AssociateEmail)
-    values (3.55, 'Grant Regular', '224-555-5555', 'grant@quotes.com');
+INSERT INTO SalesAssociates (CommissionRate, AssociateName, AssociatePhone, AssociateEmail, AssociatePass)
+    values (2.25, 'Roger Huxley', '224-444-4444', 'roger@quotes.com', "test1");
+    INSERT INTO SalesAssociates (CommissionRate, AssociateName, AssociatePhone, AssociateEmail, AssociatePass)
+    values (3.55, 'Grant Regular', '224-555-5555', 'grant@quotes.com', "test2");
 
 INSERT INTO Quotes (Prices, Discounts, SecretNotes, QuoteStatus, ItemNum, Quantity, SalesAssociateID, CustomerID)
     values (300.99, 1.99, 'The discount is not real, just messing with the customer!', 'Approved', '100-1100', 100, 1, 1);
