@@ -103,9 +103,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])){
   //store user and password
   $USER = $_POST["userID"];
   $PASS = $_POST["password"];
+  echo $USER;
+  echo $PASS;
+  return;
 
   //query to get everything from a row where the user is found
-  $query = "SELECT * FROM SalesAssociates WHERE salesAssociateID=:userID AND AssociatePass=:password ";
+  $query = "SELECT * FROM SalesAssociates WHERE SalesAssociateID=:userID AND AssociatePass=:password ";
 
   //execute the query
   $statement = $pdo->prepare($query);
