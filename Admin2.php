@@ -7,8 +7,8 @@
         <title>  Admin Page  </title>
     </head>
  				
-<body style="background-color:ffd1df;">
-<h1 style="color:blue; text-align: center;">Sales Associate Information</h1>
+<body style="background-color:white;">
+<h1 style="color:navy; text-align: center;">Sales Associate Information</h1>
 
  <?php
   include "connection.php";
@@ -21,29 +21,32 @@
         $statement->execute();
         $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
 	$rowCount = $statement->rowCount();
+<<<<<<< HEAD
 
+=======
+>>>>>>> Magali
   }catch(PDOException $e){
 
         die("<p>Query failed: {$e->getMessage()}</p>\n");
   }
 
   //table for inventory
-  echo"<table border=1>";
+  echo"<table border=1 style='margin-left: 200px; background-color; white; boarder-color: navy;'>";
   echo '<tr>';
 
  foreach (array_keys($rows[0]) as $heading) {
-    echo "<td style='padding: 10px;'><strong>$heading<strong></td>";
+    echo "<td style='padding: 18px;'><strong>$heading<strong></td>";
   }
-	echo "<td style='padding: 10px;'><strong>Action</strong></td>";
+	echo "<td style='padding: 18px;'><strong>Action</strong></td>";
  	echo '</tr>';
  
   foreach($rows as $row){
       echo "<tr>";			
       foreach($row as $col){
-	 echo "<td>$col</td>\n";
+	 echo "<td style='padding: 20px;'>$col</td>\n";
 	} 
 //adding buttons to tabel
-echo "<td><button onclick='editRow(this)'>Edit</button><button onclick='confirmDelete(this)'>Delete</button></td>";
+echo "<td style='padding: 20px;'><button onclick='editRow(this)'>Edit</button><button onclick='confirmDelete(this)'>Delete</button></td>";
   echo "</tr>";
 }
 
@@ -53,7 +56,11 @@ echo "<p> Total number of Employees: " . $rowCount . " </p>";
 
 echo "<br/>";
 
+<<<<<<< HEAD
 echo "<button onclick='addAssociate()'>Add Associate</button>"; 
+=======
+echo "<button onclick='addAssociate()' style='font-size: 20px; color: navy;'>Add Associate</button>"; 
+>>>>>>> Magali
 
 include "footer.php";
 
@@ -82,15 +89,23 @@ echo "<script>
         var cells = row.querySelectorAll('td');
         var newData = [];
         var id = cells[0].innerHTML;
+<<<<<<< HEAD
         for (var i = 1; i < cells.length - 1; i++) { // Exclude action column
+=======
+        for (var i = 1; i < cells.length - 1; i++) { 
+>>>>>>> Magali
             newData.push(cells[i].querySelector('input').value);
             cells[i].innerHTML = cells[i].querySelector('input').value;
         }
         var saveButton = row.querySelector('button:nth-of-type(1)');
         saveButton.innerHTML = 'Edit';
         saveButton.setAttribute('onclick', 'editRow(this)');
+<<<<<<< HEAD
         // send the data to the server
         fetch('./postSalesAssociate.php', {
+=======
+       fetch('./postSalesAssociate.php', {
+>>>>>>> Magali
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({
@@ -125,8 +140,12 @@ function saveNewAssociate(button) {
         var newRow = document.createElement('tr');
         var data = [];
 
+<<<<<<< HEAD
         // add the ID cell
         var idCell = document.createElement('td');
+=======
+       var idCell = document.createElement('td');
+>>>>>>> Magali
         newRow.appendChild(idCell);
         inputs.forEach(function(input) {
             var cell = document.createElement('td');
@@ -135,7 +154,10 @@ function saveNewAssociate(button) {
             newRow.appendChild(cell);
         });
 
+<<<<<<< HEAD
         // send the data to the server
+=======
+>>>>>>> Magali
         fetch('./postSalesAssociate.php', {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
@@ -155,7 +177,7 @@ function saveNewAssociate(button) {
 
 
         var actionCell = document.createElement('td');
-        actionCell.innerHTML = '<button onclick=\"editRow(this)\">Edit</button>' +
+        actionCell.innerHTML = '<button onclick=\"editRow(this)\"style=\'margin-left: 16px;\">Edit</button>' +
                                '<button onclick=\"confirmDelete(this)\">Delete</button>';
         newRow.appendChild(actionCell);
         document.querySelector('table tbody').appendChild(newRow);
@@ -168,8 +190,6 @@ function saveNewAssociate(button) {
 
 </body>
 </html>
-
-
 
 
 
