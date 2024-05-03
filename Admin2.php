@@ -59,7 +59,7 @@ echo "<br/>";
 <<<<<<< HEAD
 echo "<button onclick='addAssociate()'>Add Associate</button>"; 
 =======
-echo "<button onclick='addAssociate()' style='font-size: 20px; color: navy;'>Add Associate</button>"; 
+echo "<button onclick='addAssociate()' style='font-size: 20px; color: navy;'>Add Associate</button>";
 >>>>>>> Magali
 
 include "footer.php";
