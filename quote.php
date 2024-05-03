@@ -5,8 +5,6 @@
 
 <h1>Welcoming a New Customer</h1>
 
-<p>z1918687</p>
-
 <?php
 
   session_start();
@@ -25,10 +23,6 @@
 
 <form method="POST" action="quote.php">
 
-    <input type='text' name='quoteID' placeholder='QuoteID'>
-
-    <br/>
-    <br/>
 
     <input type='text' name='price' placeholder='Price'/>
 
@@ -69,8 +63,7 @@
 
  if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])){
 
-	//store the fields into some values
-	$qID = $_POST['quoteID'];
+	//store the fields into some variables
 	$price = $_POST['price'];
 	$discount = $_POST['status'];
 	$itemNum = $_POST['itemNum'];
