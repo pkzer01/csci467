@@ -1,3 +1,7 @@
+<?php
+  include "header.php";
+?>
+
 <html> 
     <head>
         <title> 
@@ -10,7 +14,6 @@
 </body>
 
  <?php
-  include "header.php";
   include "connection.php";
   //showing the inventory and everything in it
 
@@ -88,13 +91,31 @@ echo "<script>
         var row = button.parentNode.parentNode;
         var cells = row.querySelectorAll('td');
         var newData = [];
+        var id = cells[0].innerHTML; // store ID
         for (var i = 1; i < cells.length - 1; i++) { // Exclude action column and ID column
             newData.push(cells[i].querySelector('input').value);
             cells[i].innerHTML = cells[i].querySelector('input').value;
         }
+
         var saveButton = row.querySelector('button:nth-of-type(1)');
         saveButton.innerHTML = 'Edit';
         saveButton.setAttribute('onclick', 'editRow(this)');
+        // send the data to the server
+        fetch('./postSalesAssociate.php', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            SalesAssociateID: id,
+            CommissionRate: newData[0],
+            AssociateName: newData[1],
+            AssociatePhone: newData[2],
+            AssociateEmail: newData[2]
+          })
+        }).then(res => {
+          res.text().then(data => {
+            alert(data);
+          })
+        })
      }
 </script>";
 ?>

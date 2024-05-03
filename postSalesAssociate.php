@@ -44,8 +44,34 @@
             echo "DELETE failed: {$e->getMessage()}";
         }
     }
-    else if(isset($_POST["SalesAssociateID"])) {
+    else if(
+        isset($_POST["SalesAssociateID"])
+        && isset($_POST["CommissionRate"])
+        && isset($_POST["AssociateName"])
+        && isset($_POST["AssociatePhone"])
+        && isset($_POST["AssociateEmail"])
+    ) {
         // update an existing sales assocate
+        try {
+            $query = "UPDATE SalesAssociates SET CommissionRate = 2.33, AssociateName = :name, AssociatePhone = :phone, AssociateEmail = :email WHERE SalesAssociateID = :id;";
+            $statement = $pdo->prepare($query);
+            //$statement->bindParam(":comm", $_POST["ComissionRate"]);
+            $statement->bindParam(":name", $_POST["AssociateName"]);
+            $statement->bindParam(":phone", $_POST["AssociatePhone"]);
+            $statement->bindParam(":email", $_POST["AssociateEmail"]);
+            $statement->bindParam(":id", $_POST["SalesAssociateID"]);
+            $statement->execute();
+
+            if($statement->rowCount() == 1) {
+                echo "Sales Associate Updated";
+            }
+            else {
+                echo "Sales Associate Failed To Update";
+            }
+        } 
+        catch(PDOException $e) {
+            echo "UPDATE failed: {$e->getMessage()}";
+        }
     }
     else {
         echo "Invalid POST data";
