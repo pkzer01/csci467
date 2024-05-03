@@ -53,7 +53,7 @@
     ) {
         // update an existing sales assocate
         try {
-            $query = "UPDATE SalesAssociates SET CommissionRate = :comm, AssociateName = :name, AssociatePhone = :phone, AssociateEmail = :email WHERE SalesAssociateID = :id;";
+            $query = "UPDATE SalesAssociates SET CommissionRate = :comm, AssociateName = :name, AssociatePhone = :phone, AssociateEmail = :email, AssociatePass = :pass WHERE SalesAssociateID = :id;";
             $statement = $pdo->prepare($query);
             //$statement->bindParam(":comm", $_POST["ComissionRate"]);
             /*$statement->bindParam(":name", $_POST["AssociateName"]);
@@ -62,7 +62,7 @@
             $statement->bindParam(":id", $_POST["SalesAssociateID"]);
             $statement->execute();*/
 
-            $statement->execute(['comm' => $_POST["CommissionRate"], 'name' => $_POST["AssociateName"], 'phone' => $_POST["AssociatePhone"], 'email' => $_POST["AssociateEmail"], 'id' => $_POST["SalesAssociateID"]]);
+            $statement->execute(['comm' => $_POST["CommissionRate"], 'name' => $_POST["AssociateName"], 'phone' => $_POST["AssociatePhone"], 'email' => $_POST["AssociateEmail"], 'pass' => $_POST["AssociatePass"], 'id' => $_POST["SalesAssociateID"]]);
 
 
             if($statement->rowCount() == 1) {

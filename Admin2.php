@@ -109,7 +109,8 @@ echo "<script>
             CommissionRate: newData[0],
             AssociateName: newData[1],
             AssociatePhone: newData[2],
-            AssociateEmail: newData[2]
+            AssociateEmail: newData[3],
+            AssociatePass: newData[4]
           })
         }).then(res => {
           res.text().then(data => {
