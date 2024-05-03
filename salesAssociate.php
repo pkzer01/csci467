@@ -16,7 +16,7 @@
 	//get the session variable from login
 	$userID = $_SESSION['userID'];
 	$userPass = $_SESSION['password'];
-
+  
 //////////////////////// Connect to DB to display name //////////////////////
   $hostname = 'courses';
   $dbname = 'z1918687';
@@ -76,11 +76,9 @@
 <br/>
 
 <h2>Create new quote for Customer:</h2>
-<p>here should be a drop menu that is filled with the names of customers from the legacyDB</p>
-
 
 <?php
-///////////////////////  CONNECT TO THE CUSTOMER DB /////////////////////////
+//////////////////////  CONNECT TO THE CUSTOMER DB /////////////////////////
    $hostname = 'blitz.cs.niu.edu';
    $port = 3306;
    $dbname = 'csci467';
@@ -119,10 +117,10 @@
     echo "<label for='customer'>Customers List: </label>";
     echo "<select name='customer'>";
 
-    echo "<option value=0>--SELECT A CUSTOMER--</option>";
+    echo "<option value=0>-- SELECT A CUSTOMER --</option>";
 
     foreach($customers as $customer){
-    echo "<option value='" . htmlspecialchars($customer['name']) . "'>";
+    echo "<option name='customer' value='" . htmlspecialchars($customer['name']) . "'>";
 
     echo htmlspecialchars($customer['name']);
 
@@ -137,9 +135,14 @@
 
     echo "</form>";
 
-    echo"when button pressed --> new quote page";
-    echo"<br/>";
-    echo"when going bring the name of the company, to pull info again if need be";
+    if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["customer"])){
+
+
+      $_SESSION['customer'] = $_POST['customer'];
+
+      echo"<script>window.location.href = 'quote.php';</script>";
+
+      }
 
     echo "<br/>";
 
@@ -151,12 +154,12 @@
 
 
 <br/>
-<br/>
 
-<p>--------------------------------------------------------------</p>
+<h1>Current quotes: </h1>
 
-<p> display the current quotes that an associate has</p>
 <?php
+
+
 //start the sql session /////////////////////////////////////////////////////
   $hostname = 'courses';
   $dbname = 'z1918687';
@@ -182,13 +185,47 @@
   }
 /////////////////////////////////////////////////////////////////////////////
 
-   echo"Here I want to make a table of the quote DB based on current user";
-   echo"<br/>";
-   echo"SELECT * FROM quoteTable WHERE associateID=userID";
+   $query = 'SELECT * FROM Quotes WHERE SalesAssociateID =:userID';
 
+  //run the query to get the quotes of the current user
+   try{
+
+	$statement = $pdo->prepare($query);
+	$statement->bindParam(':userID', $userID);
+	$statement->execute();
+	//fetch all the returns
+	$rows = $statement->fetchALL(PDO::FETCH_ASSOC);
+   }catch(PDOException $e){
+
+        die("<p>Query failed: {$e->getMessage()}</p>\n");
+
+  }
+
+  echo"<table border=1>";
+  echo '<tr>';
+
+  foreach (array_keys($rows[0]) as $heading) {
+    echo "<td style='padding: 10px;'><strong>$heading<strong></td>";
+  }
+
+
+  foreach($rows as $row){
+       echo "<tr>";
+
+      foreach($row as $col){ echo "<td>$col</td>\n";}
+
+        echo"</tr>";
+  }
+
+ echo "<tr>";
+ echo "</table>";
 ?>
 
 <br/>
+
+
+<a href="login.php">logout</a>
+
 
 </body>
 
