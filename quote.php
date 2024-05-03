@@ -1,26 +1,9 @@
 <html>
 <body>
+
+<title>New Quote</title>
+
 <h1>Welcoming a New Customer</h1>
-
-<br/>
-<br/>
-
-<p>so this page will be make new entries into the quote table</p>
-
-<br/>
-
-<p>currently that table is defined as the following: CREATE TABLE Quotes (<br/>
-    QuoteID INT NOT NULL AUTO_INCREMENT,<br/>
-    Prices FLOAT,<br/>
-    Discounts FLOAT,<br/>
-    SecretNotes VARCHAR(100),<br/>
-    QuoteStatus VARCHAR(10),<br/>
-    ItemNum VARCHAR(100),<br/>
-    Quantity FLOAT,<br/>
-    SalesAssociateID INT REFERENCES SalesAssociates(SalesAssociateID),<br/>
-    CustomerID FLOAT,<br/>
-    PRIMARY KEY(QuoteID)<br/>
-);</p>
 
 <?php
 
@@ -34,25 +17,51 @@
 
    }
 
-  echo "<p> Currently, based on how i have pages set up. Session variables of the sales associate signed in + the company that is getting a quote get carried</p>";
-  echo "<br/>";
-  echo "<p>into this new page: </p>";
-  echo "<br/>";
-
-  echo $userID . " " . $company
+  //instead of auto-filling field, make new quote
+  echo "<h2>New Quote for: " . $company . " </h2>";
 ?>
 
+<form method="POST" action="quote.php">
 
-<p>My thought process is to have the company + sales id auto fill in the "report"</p>
-<br/>
-<p>all that report will be is a series of text boxes in a form</p>
-<br/>
-<p>and once you hit submit it will insert that row into the Quotes Table</p>
+    <input type='text' name='quoteID' placeholder='QuoteID'>
 
-<br/>
-<p>the syntax for that should be like: INSERT INTO Quotes (col1,col2,col3...) VALUES(col1,col2,col3...)</p>
-<br/>
-<p>remember that if something is a varchar that it is to be put in single quotes('')</p>
+    <br/>
+    <br/>
+
+    <input type='text' name='price' placeholder='Price'/>
+
+    <br/>
+    <br/>
+
+
+    <input type='text' name='discount' placeholder='Discount'>
+
+    <br/>
+    <br/>
+
+    <input type='text' name='status' placeholder='Status'/>
+
+    <br/>
+    <br/>
+
+    <input type='text' name='itemNum' placeholder='Item number: ###-####'>
+
+    <br/>
+    <br/>
+
+    <input type='text' name='customerID' placeholder='CustomerID: ####'/>
+
+    <br/>
+    <br/>
+
+
+    <!-- This button hopefully is for the id + password -->
+    <button type='submit' name='submit' value='submit'>ENTER THAT JAWN</button>
+
+</form>
+
+
+<p> second half of this page does behind the scenes stuff and turns this into an order</p>
 
 <a href="salesAssociate.php">back to associate page</a>
 
