@@ -4,7 +4,7 @@
 </head>
 <?php
    include "header.php";
-   include "connection.php"; // include database connection from connection.php
+   include "connection.php";
 
    //get order table data from the database
    $query = "SELECT * FROM OrderInfo LEFT JOIN Quotes on OrderInfo.QuoteID = Quotes.QuoteID";

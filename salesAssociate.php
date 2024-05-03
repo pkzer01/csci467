@@ -8,6 +8,7 @@
 
 <?php
   include "header.php"; // include page header
+  include "connection.php"; //connect to DB
 
   session_start();
 
@@ -17,8 +18,6 @@
 	$userID = $_SESSION['userID'];
 	$userPass = $_SESSION['password'];
 
-  include "connection.php"; // include database connections
-
   $query = "SELECT AssociateName FROM SalesAssociates WHERE SalesAssociateID=:userID AND AssociatePass=:password";
 
   //execute the query
@@ -26,7 +25,6 @@
   $statement->bindParam(':userID', $userID);
   $statement->bindParam(':password', $userPass);
   $statement->execute();
-
 
   //if success
   if($statement->rowCount() > 0){
@@ -68,10 +66,10 @@
     echo "<label for='customer'>Customers List: </label>";
     echo "<select name='customer'>";
 
-    echo "<option value=0>-- SELECT A CUSTOMER --</option>";
+    echo "<option value=0>--SELECT A CUSTOMER--</option>";
 
     foreach($customers as $customer){
-    echo "<option name='customer' value='" . htmlspecialchars($customer['name']) . "'>";
+    echo "<option value='" . htmlspecialchars($customer['name']) . "'>";
 
     echo htmlspecialchars($customer['name']);
 
@@ -84,7 +82,7 @@
     //<!--submit button-->
     echo"<input type='submit' value='NEW QUOTE'>";
 
-    echo "</form>";
+    echo"<br/>";
 
     if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["customer"])){
 
@@ -95,15 +93,12 @@
 
       }
 
-    echo "<br/>";
-
     echo "NUMBER OF CUSTOMERS: " . $rowCount;
 ?>
 
 
 <br/>
-
-<h1>Current quotes: </h1>
+<br/>
 
 <?php
    include "connection.php"; // include database connections
@@ -125,7 +120,9 @@
 
   }
 
-  echo"<table border=1>";
+  echo "<h2>$NAME's current quotes: </h2>";
+
+  echo"<table border=1 cellspacing='100'>";
   echo '<tr>';
 
   foreach (array_keys($rows[0]) as $heading) {
@@ -146,10 +143,6 @@
 ?>
 
 <br/>
-
-
-<a href="login.php">logout</a>
-
 
 </body>
 
