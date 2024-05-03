@@ -5,9 +5,8 @@
 
 <h1>Welcoming a New Customer</h1>
 
-<p>z1918687</p>
-
 <?php
+  include "connection.php";
 
   session_start();
 
@@ -15,8 +14,12 @@
 
         //get the session variable from login
         $userID = $_SESSION['userID'];
-        $company = $_SESSION['customer'];
+        $companyID = $_SESSION['customer'];
 
+        $query = "SELECT name FROM customers WHERE id = :id;";
+        $statement = $legacyPdo->prepare($query);
+        $statement->execute(['id' => $companyID]);
+        $company = $statement->fetchAll(PDO::FETCH_ASSOC)[0]["name"];
    }
 
   //instead of auto-filling field, make new quote
@@ -25,10 +28,6 @@
 
 <form method="POST" action="quote.php">
 
-    <input type='text' name='quoteID' placeholder='QuoteID'>
-
-    <br/>
-    <br/>
 
     <input type='text' name='price' placeholder='Price'/>
 
@@ -37,6 +36,11 @@
 
 
     <input type='text' name='discount' placeholder='Discount'>
+
+    <br/>
+    <br/>
+
+    <input type='number' name='quantity' placeholder='Quantity'>
 
     <br/>
     <br/>
@@ -51,7 +55,16 @@
     <br/>
     <br/>
 
-    <input type='text' name='customerID' placeholder='CustomerID: ####'/>
+    <!-- Use the customer ID from the query to auto fill this field, if applicable -->
+    <?php
+      if(isset($_GET["CustomerID"])) {
+        echo "<input readonly type='text' name='customerID' placeholder='CustomerID: ####' value='".$_GET["CustomerID"]."'/>";
+      }
+      else {
+        echo "<input type='text' name='customerID' placeholder='CustomerID: ####'/>";
+      }
+    ?>
+    
 
     <br/>
     <br/>
@@ -72,17 +85,44 @@
 	//store the fields into some values
 	$qID = $_POST['quoteID'];
 	$price = $_POST['price'];
-	$discount = $_POST['status'];
+  $discount = $_POST['discount'];
+	$status = $_POST['status'];
 	$itemNum = $_POST['itemNum'];
+  $quantity = $_POST['quantity'];
 	$cID = $_POST['customerID'];
 
+  include "connection.php"; // include database connection
+
+  try {
+    $query = "INSERT INTO Quotes (Prices, Discounts, SecretNotes, QuoteStatus, ItemNum, Quantity, SalesAssociateID, CustomerID)"
+      ." VALUES (:price, :discount, :secret, :status, :itemNum, :quantity, :associateID, :customerID)";
+
+      $statement = $pdo->prepare($query);
+      $statement->execute([
+        'price' => $price,
+        'discount' => $discount,
+        'secret' => '',
+        'status' => $status,
+        'itemNum' => $itemNum,
+        'quantity' => $quantity,
+        'associateID' => $_SESSION['userID'],
+        'customerID' => $cID
+      ]);
+
+      if($statement->rowCount() == 1) {
+        echo "Quote Created!";
+      }
+      else {
+        echo "Quote Failed to Create...";
+      }
+    }
+    catch(PDOException $e) {
+      echo "Insert Failed: ".$e->getMessage();
+    }
  }
 
 
 ?>
-
-
-<p> second half of this page does behind the scenes stuff and turns this into an order</p>
 
 <a href="salesAssociate.php">back to associate page</a>
 

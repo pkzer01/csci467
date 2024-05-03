@@ -54,7 +54,7 @@
     include "connection.php";
     /////////////////////////////////////////////////////////////////////////////
     ///still want to make drop down menu of quotes
-    $query = "SELECT name FROM customers"; //selecting name from classDB
+    $query = "SELECT id, name FROM customers"; //selecting name from classDB
 
     $statement = $legacyPdo->prepare($query);
     $statement->execute();
@@ -69,7 +69,7 @@
     echo "<option value=0>--SELECT A CUSTOMER--</option>";
 
     foreach($customers as $customer){
-    echo "<option value='" . htmlspecialchars($customer['name']) . "'>";
+    echo "<option value='" . htmlspecialchars($customer['id']) . "'>";
 
     echo htmlspecialchars($customer['name']);
 
@@ -89,7 +89,7 @@
 
       $_SESSION['customer'] = $_POST['customer'];
 
-      echo"<script>window.location.href = 'quote.php';</script>";
+      echo"<script>window.location.href = 'quote.php?CustomerID=".$_POST['customer']."';</script>";
 
       }
 
