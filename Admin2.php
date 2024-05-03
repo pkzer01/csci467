@@ -10,9 +10,7 @@
 </head>
 
 <body style="background-color:ffd1df;">
-<h1>Associate Information </h1>
-</body>
-
+<h1 style="color:blue; text-align: center;">Sales Associate Information</h1>
  <?php
   include "connection.php";
   //showing the inventory and everything in it
@@ -47,37 +45,28 @@
 echo "<td><button onclick='editRow(this)'>Edit</button><button onclick='confirmDelete(this)'>Delete</button></td>";
   echo "</tr>";
 }
+
 echo "</table>";
+
+echo "<br/>";
+
+echo "<button onclick='addAssociate()'>Add Associate</button>"; 
 
 include "footer.php";
 
 //button functionalities
+
 echo "<script>
     function confirmDelete(button) {
         if (confirm('Are you sure you want to delete this employee?')) {
             var row = button.parentNode.parentNode;
-            var cells = row.querySelectorAll('td');
-            const id = cells[0].innerText;
-
-            // delete on server
-            fetch('./postSalesAssociate.php', {
-              method: 'POST',
-              headers: {'Content-Type': 'application/json'},
-              body: JSON.stringify({ delete: id })
-            }).then(res => {
-              res.text().then(data => {
-                alert(data);
-                if(data == 'Sales Associate Deleted')
-                  row.parentNode.removeChild(row);
-              })
-            })
+	    row.parentNode.removeChild(row);
         }
      }
-
      function editRow(button) {
         var row = button.parentNode.parentNode;
         var cells = row.querySelectorAll('td');
-        for (var i = 1; i < cells.length - 1; i++) { // Exclude action column and ID column (primary key cannot be edited)
+        for (var i = 0; i < cells.length - 1; i++) { // Exclude action column
             var value = cells[i].innerText;
             cells[i].innerHTML = '<input type=\"text\" value=\"' + value + '\">';
         }
@@ -85,38 +74,48 @@ echo "<script>
         editButton.innerHTML = 'Save';
         editButton.setAttribute('onclick', 'saveRow(this)');
      }
-
-
      function saveRow(button) {
         var row = button.parentNode.parentNode;
         var cells = row.querySelectorAll('td');
         var newData = [];
-        var id = cells[0].innerHTML; // store ID
-        for (var i = 1; i < cells.length - 1; i++) { // Exclude action column and ID column
+        for (var i = 0; i < cells.length - 1; i++) { // Exclude action column
             newData.push(cells[i].querySelector('input').value);
             cells[i].innerHTML = cells[i].querySelector('input').value;
         }
-
         var saveButton = row.querySelector('button:nth-of-type(1)');
         saveButton.innerHTML = 'Edit';
         saveButton.setAttribute('onclick', 'editRow(this)');
-        // send the data to the server
-        fetch('./postSalesAssociate.php', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({
-            SalesAssociateID: id,
-            CommissionRate: newData[0],
-            AssociateName: newData[1],
-            AssociatePhone: newData[2],
-            AssociateEmail: newData[2]
-          })
-        }).then(res => {
-          res.text().then(data => {
-            alert(data);
-          })
-        })
-     }
+       }
+function addAssociate() {
+       var newRow = document.createElement('tr');
+       newRow.innerHTML = '<td><input type=\"text\"></td>' + 
+                           '<td><input type=\"text\"></td>' + 
+                           '<td><input type=\"text\"></td>' + 
+                           '<td><input type=\"text\"></td>' + 
+                           '<td><input type=\"text\"></td>' + 
+                           '<td><input type=\"password\"></td>' + 
+                           '<td><button onclick=\"saveNewAssociate(this)\">Save</button></td>'; 
+  document.querySelector('table tbody').appendChild(newRow);
+}
+
+function saveNewAssociate(button) {
+        var row = button.parentNode.parentNode;
+        var inputs = row.querySelectorAll('input[type=\"text\"], input[type=\"password\"]');
+        var newRow = document.createElement('tr');
+        inputs.forEach(function(input) {
+            var cell = document.createElement('td');
+            cell.textContent = input.value;
+            newRow.appendChild(cell);
+        });
+        var actionCell = document.createElement('td');
+        actionCell.innerHTML = '<button onclick=\"editRow(this)\">Edit</button>' +
+                               '<button onclick=\"confirmDelete(this)\">Delete</button>';
+        newRow.appendChild(actionCell);
+        document.querySelector('table tbody').appendChild(newRow);
+        row.parentNode.removeChild(row);
+    }
+
+
 </script>";
 ?>
 
