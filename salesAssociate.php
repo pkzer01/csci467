@@ -8,6 +8,7 @@
 
 <?php
   include "header.php"; // include page header
+  include "connection.php"; //connect to DB
 
   session_start();
 
@@ -17,8 +18,6 @@
 	$userID = $_SESSION['userID'];
 	$userPass = $_SESSION['password'];
 
-  include "connection.php"; // include database connections
-
   $query = "SELECT AssociateName FROM SalesAssociates WHERE SalesAssociateID=:userID AND AssociatePass=:password";
 
   //execute the query
@@ -26,7 +25,6 @@
   $statement->bindParam(':userID', $userID);
   $statement->bindParam(':password', $userPass);
   $statement->execute();
-
 
   //if success
   if($statement->rowCount() > 0){
@@ -46,21 +44,17 @@
   }
  }
 
-  $pdo = null;
-
 ?>
 
 <br/>
 
 <h2>Create new quote for Customer:</h2>
-<p>here should be a drop menu that is filled with the names of customers from the legacyDB</p>
-
 
 <?php
     include "connection.php";
     /////////////////////////////////////////////////////////////////////////////
     ///still want to make drop down menu of quotes
-    $query = "SELECT name FROM customers"; //selecting name from classDB
+    $query = "SELECT id, name FROM customers"; //selecting name from classDB
 
     $statement = $legacyPdo->prepare($query);
     $statement->execute();
@@ -75,7 +69,7 @@
     echo "<option value=0>--SELECT A CUSTOMER--</option>";
 
     foreach($customers as $customer){
-    echo "<option value='" . htmlspecialchars($customer['name']) . "'>";
+    echo "<option value='" . htmlspecialchars($customer['id']) . "'>";
 
     echo htmlspecialchars($customer['name']);
 
@@ -88,35 +82,64 @@
     //<!--submit button-->
     echo"<input type='submit' value='NEW QUOTE'>";
 
-    echo "</form>";
-
-    echo"when button pressed --> new quote page";
     echo"<br/>";
-    echo"when going bring the name of the company, to pull info again if need be";
 
-    echo "<br/>";
+    if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["customer"])){
+
+
+      $_SESSION['customer'] = $_POST['customer'];
+
+      echo"<script>window.location.href = 'quote.php?CustomerID=".$_POST['customer']."';</script>";
+
+      }
 
     echo "NUMBER OF CUSTOMERS: " . $rowCount;
-
-// close connection
-    $pdo = null;
 ?>
 
 
 <br/>
 <br/>
 
-<p>--------------------------------------------------------------</p>
-
-<p> display the current quotes that an associate has</p>
 <?php
    include "connection.php"; // include database connections
 /////////////////////////////////////////////////////////////////////////////
 
-   echo"Here I want to make a table of the quote DB based on current user";
-   echo"<br/>";
-   echo"SELECT * FROM quoteTable WHERE associateID=userID";
-  include "footer.php"; // include page footer
+   $query = 'SELECT * FROM Quotes WHERE SalesAssociateID =:userID';
+
+  //run the query to get the quotes of the current user
+   try{
+
+	    $statement = $pdo->prepare($query);
+	    $statement->bindParam(':userID', $userID);
+	    $statement->execute();
+	    //fetch all the returns
+	    $rows = $statement->fetchALL(PDO::FETCH_ASSOC);
+   }catch(PDOException $e){
+
+      die("<p>Query failed: {$e->getMessage()}</p>\n");
+
+  }
+
+  echo "<h2>$NAME's current quotes: </h2>";
+
+  echo"<table border=1 cellspacing='100'>";
+  echo '<tr>';
+
+  foreach (array_keys($rows[0]) as $heading) {
+    echo "<td style='padding: 10px;'><strong>$heading<strong></td>";
+  }
+
+
+  foreach($rows as $row){
+       echo "<tr>";
+
+      foreach($row as $col){ echo "<td>$col</td>\n";}
+
+        echo"</tr>";
+  }
+
+ echo "<tr>";
+ echo "</table>";
 ?>
 
 <br/>

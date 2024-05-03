@@ -8,7 +8,7 @@
 	background-color: navy;
 	margin: 0;
 	padding: 0;
-	font-famil: Arial, sans-serif;
+	font-family: Arial, sans-serif;
 	line-height: 2;
    }
 
@@ -71,30 +71,7 @@
 
 <?php
 
-//start the sql session /////////////////////////////////////////////////////
-  $hostname = 'courses';
-  $dbname = 'z1918687';
-  $username = 'z1918687';
-  $passwrd = '2002Dec11';
-
-  $dsn = "mysql:host=$hostname;dbname=$dbname";
-
-  $options = [
-    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    PDO::ATTR_EMULATE_PREPARES   => false,
-  ];
-
-  try {
-
-        $pdo = new PDO($dsn, $username, $passwrd, $options);
-
-  } catch (PDOException $e){
-
-   die("<p>Connection to database failed: {$e->getMessage()}</p>\n");
-
-  }
-/////////////////////////////////////////////////////////////////////////////
+  include "connection.php";
 
 
 //	Trying to check the user and password		//
@@ -105,7 +82,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])){
   $PASS = $_POST["password"];
 
   //query to get everything from a row where the user is found
-  $query = "SELECT * FROM SalesAssociates WHERE salesAssociateID=:userID AND AssociatePass=:password ";
+  $query = "SELECT * FROM SalesAssociates WHERE SalesAssociateID=:userID AND AssociatePass=:password ";
 
   //execute the query
   $statement = $pdo->prepare($query);
