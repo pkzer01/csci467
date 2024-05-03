@@ -37,9 +37,17 @@ CREATE TABLE OrderInfo (
 -- Create Test Data
 INSERT INTO SalesAssociates (CommissionRate, AssociateName, AssociatePhone, AssociateEmail)
     values (2.25, 'Roger Huxley', '224-444-4444', 'roger@quotes.com');
+    INSERT INTO SalesAssociates (CommissionRate, AssociateName, AssociatePhone, AssociateEmail)
+    values (3.55, 'Grant Regular', '224-555-5555', 'grant@quotes.com');
 
 INSERT INTO Quotes (Prices, Discounts, SecretNotes, QuoteStatus, ItemNum, Quantity, SalesAssociateID, CustomerID)
     values (300.99, 1.99, 'The discount is not real, just messing with the customer!', 'Approved', '100-1100', 100, 1, 1);
+INSERT INTO Quotes (Prices, Discounts, SecretNotes, QuoteStatus, ItemNum, Quantity, SalesAssociateID, CustomerID)
+    values (129.99, 10.27, '', 'Pending', '133-1100', 100, 1, 3);
+INSERT INTO Quotes (Prices, Discounts, SecretNotes, QuoteStatus, ItemNum, Quantity, SalesAssociateID, CustomerID)
+    values (200.00, 0.00, '', 'Approved', '122-1100', 100, 2, 2);
 
 INSERT INTO OrderInfo (QuoteID, CommissionRate, OrderQuant, OrderStatus)
     values (1, 3.00, 101, 'Pending');
+INSERT INTO OrderInfo (QuoteID, CommissionRate, OrderQuant, OrderStatus)
+    values (3, 2.55, 1000, 'Pending');

@@ -60,7 +60,7 @@
 <div class="title-bar">
     <span class="title">Quotes Daily</span>
     <a href="./salesAssociate.php" class="page-link">Quotes</a>
-    <a href="./Admin.php" class="page-link">Sales Associates</a>
+    <a href="./Admin2.php" class="page-link">Sales Associates</a>
     <a href="./orders.php" class="page-link">Orders</a>
     <a href="./customerDB.php" class="page-link">Customers</a>
     <a href="./login.php" class="page-link logout">Log Out</a>

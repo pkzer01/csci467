@@ -10,27 +10,8 @@
 </body>
 
  <?php
-$hostname = 'courses';
-  $dbname = 'z1918687';
-  $username = 'z1918687';
-  $password = '2002Dec11';
-
-  $dsn = "mysql:host=$hostname;dbname=$dbname";
-
-  $options = [
-    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    PDO::ATTR_EMULATE_PREPARES   => false,
-  ];
-
-  try{
-
-        $pdo = new PDO($dsn, $username, $password, $options);
-
-  }catch (PDOException $e){
-   die("<p>Connection to database failed: {$e->getMessage()}</p>\n");
-
-  }
+  include "header.php";
+  include "connection.php";
   //showing the inventory and everything in it
 
   $query = 'SELECT * FROM SalesAssociates';
@@ -64,20 +45,36 @@ echo "<td><button onclick='editRow(this)'>Edit</button><button onclick='confirmD
   echo "</tr>";
 } 
 echo "</table>";
+
+include "footer.php";
  
 //button functionalities
 echo "<script>
     function confirmDelete(button) {
         if (confirm('Are you sure you want to delete this employee?')) {
             var row = button.parentNode.parentNode;
-	    row.parentNode.removeChild(row);
+            var cells = row.querySelectorAll('td');
+            const id = cells[0].innerText;
+            
+            // delete on server
+            fetch('./postSalesAssociate.php', {
+              method: 'POST',
+              headers: {'Content-Type': 'application/json'},
+              body: JSON.stringify({ delete: id })
+            }).then(res => {
+              res.text().then(data => {
+                alert(data);
+                if(data == 'Sales Associate Deleted')
+                  row.parentNode.removeChild(row);
+              })
+            })
         }
      }
 
      function editRow(button) {
         var row = button.parentNode.parentNode;
         var cells = row.querySelectorAll('td');
-        for (var i = 0; i < cells.length - 1; i++) { // Exclude action column
+        for (var i = 1; i < cells.length - 1; i++) { // Exclude action column and ID column (primary key cannot be edited)
             var value = cells[i].innerText;
             cells[i].innerHTML = '<input type=\"text\" value=\"' + value + '\">';
         }
@@ -91,7 +88,7 @@ echo "<script>
         var row = button.parentNode.parentNode;
         var cells = row.querySelectorAll('td');
         var newData = [];
-        for (var i = 0; i < cells.length - 1; i++) { // Exclude action column
+        for (var i = 1; i < cells.length - 1; i++) { // Exclude action column and ID column
             newData.push(cells[i].querySelector('input').value);
             cells[i].innerHTML = cells[i].querySelector('input').value;
         }
