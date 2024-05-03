@@ -10,9 +10,6 @@
 <body style="background-color:ffd1df;">
 <h1 style="color:blue; text-align: center;">Sales Associate Information</h1>
 
-
-<body style="background-color:ffd1df;">
-<h1 style="color:blue; text-align: center;">Sales Associate Information</h1>
  <?php
   include "connection.php";
   //showing the inventory and everything in it
@@ -69,7 +66,7 @@ echo "<script>
      function editRow(button) {
         var row = button.parentNode.parentNode;
         var cells = row.querySelectorAll('td');
-        for (var i = 0; i < cells.length - 1; i++) { // Exclude action column
+        for (var i = 1; i < cells.length - 1; i++) { // Exclude action column
             var value = cells[i].innerText;
             cells[i].innerHTML = '<input type=\"text\" value=\"' + value + '\">';
         }
@@ -81,7 +78,8 @@ echo "<script>
         var row = button.parentNode.parentNode;
         var cells = row.querySelectorAll('td');
         var newData = [];
-        for (var i = 0; i < cells.length - 1; i++) { // Exclude action column
+        var id = cells[0].innerHTML;
+        for (var i = 1; i < cells.length - 1; i++) { // Exclude action column
             newData.push(cells[i].querySelector('input').value);
             cells[i].innerHTML = cells[i].querySelector('input').value;
         }
