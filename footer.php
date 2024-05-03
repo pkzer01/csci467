@@ -1,0 +1,1 @@
+</div> <!-- close the app body div -->

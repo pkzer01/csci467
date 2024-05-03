@@ -1,3 +1,4 @@
+<html>
 <?php
   include "header.php";
 ?>
@@ -29,6 +30,7 @@
   //table for inventory
   echo"<table border=1 style='margin-left: 200px; background-color; white; boarder-color: navy;'>";
   echo '<tr>';
+
 
  foreach (array_keys($rows[0]) as $heading) {
     echo "<td style='padding: 18px;'><strong>$heading<strong></td>";
@@ -88,7 +90,8 @@ echo "<script>
         var saveButton = row.querySelector('button:nth-of-type(1)');
         saveButton.innerHTML = 'Edit';
         saveButton.setAttribute('onclick', 'editRow(this)');
-       fetch('./postSalesAssociate.php', {
+        // send the data to the server
+        fetch('./postSalesAssociate.php', {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({
@@ -114,7 +117,7 @@ function addAssociate() {
                            '<td><input type=\"text\"></td>' + 
                            '<td><input type=\"password\"></td>' + 
                            '<td><button onclick=\"saveNewAssociate(this)\">Save</button></td>'; 
-  document.querySelector('table tbody').appendChild(newRow);
+      document.querySelector('table tbody').appendChild(newRow);
 }
 
 function saveNewAssociate(button) {
@@ -123,7 +126,8 @@ function saveNewAssociate(button) {
         var newRow = document.createElement('tr');
         var data = [];
 
-       var idCell = document.createElement('td');
+        // add the ID cell
+        var idCell = document.createElement('td');
         newRow.appendChild(idCell);
         inputs.forEach(function(input) {
             var cell = document.createElement('td');
@@ -132,6 +136,7 @@ function saveNewAssociate(button) {
             newRow.appendChild(cell);
         });
 
+        // send the data to the server
         fetch('./postSalesAssociate.php', {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
